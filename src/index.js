@@ -10,15 +10,13 @@
  Пример:
    createDivWithText('loftschool') // создаст элемент div, поместит в него 'loftschool' и вернет созданный элемент
  */
-function createDivWithText(text) {
+const createDivWithText = (text) => {
     const elem = document.createElement('div');
 
     elem.innerText = text;
     
     return elem;
 }
-
-createDivWithText('create');
 
 /*
  Задание 2:
@@ -28,7 +26,7 @@ createDivWithText('create');
  Пример:
    prepend(document.querySelector('#one'), document.querySelector('#two')) // добавит элемент переданный первым аргументом в начало элемента переданного вторым аргументом
  */
-function prepend(what, where) {
+const prepend = (what, where) => {
     where.prepend(what);
 }
 
@@ -51,7 +49,7 @@ function prepend(what, where) {
 
    findAllPSiblings(document.body) // функция должна вернуть массив с элементами div и span т.к. следующим соседом этих элементов является элемент с тегом P
  */
-function findAllPSiblings(where) {
+const findAllPSiblings = (where) => {
     let elemsArr = [];
 
     for (let node of where.childNodes) {
@@ -82,7 +80,7 @@ function findAllPSiblings(where) {
 
    findError(document.body) // функция должна вернуть массив с элементами 'привет' и 'loftschool'
  */
-function findError(where) {
+const findError = (where) => {
     var result = [];
 
     for (var child of where.childNodes) {
@@ -106,7 +104,7 @@ function findError(where) {
    После выполнения функции, дерево <div></div>привет<p></p>loftchool!!!
    должно быть преобразовано в <div></div><p></p>
  */
-function deleteTextNodes(where) {
+const deleteTextNodes = (where) => {
     const nodeList = where.childNodes;
 
     for (let i = 0; i < nodeList.length; i++) {
@@ -128,7 +126,7 @@ function deleteTextNodes(where) {
    После выполнения функции, дерево <span> <div> <b>привет</b> </div> <p>loftchool</p> !!!</span>
    должно быть преобразовано в <span><div><b></b></div><p></p></span>
  */
-function deleteTextNodesRecursive(where) {
+const deleteTextNodesRecursive = (where) => {
     const nodeList = where.childNodes;
 
     for (let i = 0; i < nodeList.length; i++) {
@@ -161,14 +159,14 @@ function deleteTextNodesRecursive(where) {
      texts: 3
    }
  */
-function collectDOMStat(root) {
+const collectDOMStat = (root) => {
     const stat = {
         tags: {},
         classes: {},
         texts: 0
     }
 
-    function getStat(parent) {
+    const getStat = (parent) => {
         const nodeList = parent.childNodes;
 
         for (let node of nodeList) {
@@ -226,7 +224,7 @@ run  Пример:
      nodes: [div]
    }
  */
-function observeChildNodes(where, fn) {
+const observeChildNodes = (where, fn) => {
     const obs = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             let params = {};
