@@ -85,7 +85,6 @@ function addListeners(parent) {
     let eDragStart, eDragMove, target;
 
     const handleDragStart = (e) => {
-        console.log('start');
         target = e.target;
         target.style.opacity = '0.4';
         target.style.cursor = 'move';
@@ -98,7 +97,6 @@ function addListeners(parent) {
     }
 
     const handleDragEnd = () => {
-        console.log('end');
         target.style.cursor = 'pointer';
         target.style.opacity = '1';
 
