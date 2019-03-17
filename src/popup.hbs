@@ -1,0 +1,226 @@
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .hidden {
+        visibility: hidden;
+    }
+   
+    .popup {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 380px;
+        border-radius: 10px;
+        overflow: hidden; 
+        z-index: 10;
+    }
+
+    .header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 15px;
+        background-color: #ff8663;
+        color: #fff;
+        font-size: 16px;
+    }
+
+    .header__content {
+       display: flex;
+       align-items: top;
+       justify-content: flex-start;
+       max-width: 330px;
+    }
+
+    .header__icon {
+        display: inline-block;
+        width: 10px;
+        height: 16px;
+        margin-right: 10px;
+    }
+
+    .header__place {
+        display: inline-block;
+        width: calc(100% - 10px);
+    }
+
+    .header__exit {
+        position: relative;
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+    }
+
+    .header__exit-strip {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        height: 4px;
+        width: 15px;
+        border-radius: 2px;
+        background-color: #fff;
+    }
+
+    .header__exit-strip:first-of-type {
+        transform: rotate(-45deg);
+    }
+
+    .header__exit-strip:last-of-type {
+        transform: rotate(45deg);
+    }
+
+    .header__exit:hover .header__exit-strip {
+        background-color: #4f4f4f;
+    }
+
+    .content {
+        padding: 15px;
+        background-color: #fff;
+        color: #4f4f4f;
+        font-size: 16px;
+    }
+
+    .review {
+        padding-bottom: 30px;
+        border-bottom: 2px solid #f7f7f7;
+        margin-bottom: 15px;
+    }
+
+    .review__list {
+        height: 100px;
+        overflow-y: scroll;
+    }
+
+    .review__item {
+        margin-bottom: 15px;
+    }
+
+    .review__name {
+        display: inline-block;
+        font-weight: 700;
+        margin-right: 10px;
+    }
+
+    .review__place {
+        display: inline-block;
+        color: #9f9f9f;
+    }
+
+    .review__content {
+        color: #9f9f9f;
+    }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .form > div, .form > input, form > textarea {
+        margin-bottom: 15px;
+    }
+
+    .form__title {
+        width: 100%;
+        text-align: left;
+        color: #ff8663;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    .form__input, .form__textarea {
+        width: 100%;
+        border-radius: 18px;
+        border: 2px solid #f7f7f7;
+        padding-left: 15px;
+        padding-right: 15px;
+        color: #4f4f4f;
+        resize:  none;
+        outline: none;
+    }
+
+    .form__input {
+        height: 36px;
+    }
+
+    .form__textarea {
+        height: 130px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    .form__input::placeholder, .form__textarea::placeholder {
+        color: #9f9f9f;
+    }
+
+    .form__button {
+        border-radius: 10px;
+        padding: 10px 15px;
+        background-color: #ff8663;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+
+    .form__button:hover {
+        color: #4f4f4f;
+    }
+
+    .review__list::-webkit-scrollbar, .form__textarea::-webkit-scrollbar{
+        width: 4px; 
+    }
+    
+    .review__list::-webkit-scrollbar-thumb, .form__textarea::-webkit-scrollbar-thumb {
+        background-color: #c4c4c4;
+        outline: none;
+    }
+
+
+</style>
+
+<div id="popup" class="popup hidden">
+    <div class="header">
+        <div class="header__content">   
+            <img class="header__icon" src="../src/img/marker.png" alt="marker">
+            <div class="header__place">Месторасположение</div>
+        </div>
+        <a id ="exit" href=" " class="header__exit">
+            <div class="header__exit-strip"></div>
+            <div class="header__exit-strip"></div>
+        </a>
+    </div> 
+    <div class="content">
+        <div class="review">
+            <div id="list" class="review__list">
+                Отзывов пока нет...
+            </div>
+        </div>
+        <form id="form" class="form" action="">
+            <div class="form__title">ВАШ ОТЗЫВ</div>
+            <input type="text" id="name" class="form__input" placeholder="Ваше имя">
+            <input type="text" id="place" class="form__input" placeholder="Укажите место">
+            <textarea type="text" id="content" class="form__textarea" placeholder="Поделитесь впечатлениями"></textarea>
+            </textarea>
+            <button id="button" class="form__button" type="submit">Добавить</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const exit = document.querySelector('#exit');
+    const list = document.querySelector('#list');
+    const popup = document.querySelector('#popup');
+
+    exit.addEventListener('click', (e) => {
+        e.preventDefault();
+        popup.classList.add('hidden');
+        list.innerHTML = '';
+    });
+
+    popup.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+</script>

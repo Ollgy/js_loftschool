@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{htmlWebpackPlugin.options.title}}</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+         #map-container {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .logo {
+            position: absolute;
+            right: 25px;
+            bottom: 25px;
+        }
+    </style>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=ccd8c01e-3de3-453d-898e-ff4d72c9efd1&lang=ru_RU" type="text/javascript"></script>
+</head>
+<body>
+<div id="map-container">
+    {{> "./popup.hbs"}}
+</div>
+<a href="" class="logo" >
+    <img src="../src/img/logo.png" alt="logo">
+</a>
+</body>
+</html>
