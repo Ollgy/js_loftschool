@@ -104,9 +104,13 @@
         margin-right: 10px;
     }
 
-    .review__place {
+    .review__place, .review__time {
         display: inline-block;
         color: #9f9f9f;
+    }
+
+    .review__place {
+        margin-right: 10px;
     }
 
     .review__content {
@@ -163,6 +167,7 @@
         color: #fff;
         border: none;
         cursor: pointer;
+        outline: none;
     }
 
     .form__button:hover {
@@ -200,9 +205,9 @@
         </div>
         <form id="form" class="form" action="">
             <div class="form__title">ВАШ ОТЗЫВ</div>
-            <input type="text" id="name" class="form__input" placeholder="Ваше имя">
-            <input type="text" id="place" class="form__input" placeholder="Укажите место">
-            <textarea type="text" id="content" class="form__textarea" placeholder="Поделитесь впечатлениями"></textarea>
+            <input type="text" id="name" class="form__input" placeholder="Ваше имя" required oninvalid="this.setCustomValidity('Введите имя!')" oninput="setCustomValidity('')">
+            <input type="text" id="place" class="form__input" placeholder="Укажите место" required oninvalid="this.setCustomValidity('Введите место!')" oninput="setCustomValidity('')">
+            <textarea id="content" class="form__textarea" placeholder="Поделитесь впечатлениями" required oninvalid="this.setCustomValidity('Оставьте свой отзыв!')" oninput="setCustomValidity('')"></textarea>
             </textarea>
             <button id="button" class="form__button" type="submit">Добавить</button>
         </form>
