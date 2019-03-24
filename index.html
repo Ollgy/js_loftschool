@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="UTF-8">
+      <style>
+        body {
+          margin: 0;
+          box-sizing: border-box;
+        }
+
+        ul {
+          padding: 0;
+          margin: 0;
+          list-style: none;
+        }
+
+        .wrapper {
+          width: 100%;
+          display: flex;
+          height: 100vh;
+        }
+
+        .people {
+          width: 30%;
+          height: 100%;
+          background-color: lightgrey;
+          border-right: 5px solid orange;
+          padding: 20px;
+          box-sizing: border-box;
+        }
+
+        .author {
+          display: flex;
+          align-items: center;
+          padding-bottom: 20px;
+          border-bottom: 2px solid black;
+        }
+
+        .author-photo {
+          position: relative;
+          display: inline-block;
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          border: 3px solid orange;
+          margin-right: 15px;
+        }
+
+        .author-photo--small {
+          width: 60px;
+          height: 60px;
+          border-width: 2px;
+        }
+
+        .author-photo.empty {
+          background: black;
+        }
+
+        .author-photo.empty:after {
+          content: '?';
+          position: absolute;;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 32px;
+          color: orange;
+        }
+
+        .author-info {
+          padding-top: 5px;
+        }
+
+        .author-name, .user-header {
+          display: inline-block;
+          font-size: 20px;
+          font-weight: 700;
+        }
+
+        .author-name--small {
+          font-size: 14px;
+          margin-right: 15px;
+        }
+
+        .author-date {
+          display: inline-block;
+          color: grey;
+        }
+
+        .author-msg {
+          margin-top: 10px;
+        }
+
+        .users {
+          padding-top: 20px;
+          padding-bottom: 20px;
+        }
+
+        .users-header {
+          margin-bottom: 20px;
+        }
+        
+        .users-list {
+          padding-left: 20px
+        }
+
+        .content {
+          display: flex;
+          flex-direction: column;
+          width: 70%;
+          height: 100%;
+          padding: 20px;
+          box-sizing: border-box; 
+        }
+
+        .msg-list {
+          height: calc(100% - 80px);
+          overflow-y: scroll;
+          margin-bottom: 30px;
+          box-sizing: border-box;
+        }
+
+        .msg-item {
+          display:flex;
+          margin-bottom: 20px;
+        }
+
+        .msg-item:last-child {
+          margin-bottom: 0;
+        }
+
+        .enter {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          height: 80px;
+          padding-top: 20px;
+          border-top: 2px solid black;
+          box-sizing: border-box;
+        }
+
+        .input-block {
+          flex: 8;
+        }
+
+        .btn-block {
+          flex: 2;
+          text-align: center;
+          min-width: 45px;
+        }
+
+        .input   {
+          width: calc(100% - 30px);
+          height: 36px;
+          border-radius: 18px;
+          border: 2px solid #f7f7f7;
+          padding-left: 15px;
+          padding-right: 15px;
+          color: #4f4f4f;
+          resize:  none;
+          outline: none;
+        }
+
+        .input::placeholder {
+          color: #9f9f9f;
+        }
+
+        .button {
+          display: inline-block;
+          width: 100px;
+          border-radius: 10px;
+          padding: 10px 15px;
+          background-color: orange;
+          color: #fff;
+          border: none;
+          cursor: pointer;
+          outline: none;
+        }
+
+        .button--marginRight {
+          margin-right: 15px;
+        }
+
+        /* popup */
+        .popup {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          z-index: 100;
+        }
+
+        .popup-content {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 350px;
+          padding: 20px;
+          border-radius: 20px;
+          background-color: gray;
+        }
+
+        .popup-header {
+          margin-bottom: 10px;
+          font-size: 20px;
+          color: white;
+        }
+
+        .form {
+          background-color: #fff;
+          border-radius: 10px;
+          padding: 15px;
+        }
+
+        .form > input {
+          margin-bottom: 15px;
+        }
+
+        .button-wrap {
+          width: 100%;
+          text-align: right;
+        }
+
+        .photo-wrap {
+          width: 100%;
+          text-align: center;
+          margin-bottom: 20px;
+        }
+
+        .photo-slot {
+          position: relative;
+          display: inline-block;
+          width: 200px;
+          height: 200px;
+          border-radius: 20px;
+          border: grey dotted 3px;
+        }
+
+        .photo-slot.inactive:after {
+          content: 'Перетащите сюда фото';
+          position: absolute;;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          color: grey;
+        }
+
+        .hidden {
+          display: none;
+        }
+          
+      </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="people">
+        <div class="author">
+          <div id="author-photo" class="author-photo empty">
+            <img src="" alt="">
+          </div>
+          <div id="author-name" class="author-name">Добро пожаловать!</div>
+        </div>
+        <div class="users">
+            <div id="users-header" class="users-header">Участники</div>
+            <ul id="users-list" class="users-list">
+            </div>
+        </div>
+      <div class="content">
+        <ul class="msg-list" id="msg-container">
+          <li class="msg-item">
+          </li>
+        </ul>
+        <div class="enter">
+          <div class="input-block">
+            <input type="text" class="input" id="msg-input" placeholder="Teкст сообщения">
+          </div>
+          <div class="btn-block">
+            <button type="text" class="button" id="button">Отправить</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- popup -->
+      <div id="popup-autorize" class="popup">
+        <div class="popup-content">
+            <div class="popup-header">Авторизоваться</div>
+            <form id="form-autorize" class="form" action="">
+                <input type="text" id="name" class="input" placeholder="Ваше имя"  oninvalid="this.setCustomValidity('Введите имя!')" oninput="setCustomValidity('')">
+                <input type="text" id="nickname" class="input" placeholder="Ваш ник">
+                <div class="button-wrap">
+                    <button class="button" type="submit">Войти</button>
+                </div>
+            </form>
+        </div>
+      </div>
+
+      <!-- popup -->
+      <div id="popup-photo" class="popup hidden">
+        <div class="popup-content">
+            <div class="popup-header">Загрузить фото</div>
+            <form id="form-photo" class="form" action="">
+                <div class="photo-wrap">
+                  <div class="photo-slot inactive"></div>
+                </div>
+                <div class="button-wrap">
+                    <button class="button button--marginRight">Отмена</button>
+                    <button class="button" type="submit">Загрузить</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
+
+      const msgContainer = document.querySelector('#msg-container');
+      const usersHeader = document.querySelector('#users-header');
+      const msgInput = document.querySelector('#msg-input');
+      const usersList = document.querySelector('#users-list');
+      const sendBtn = document.querySelector('#button');
+
+      socket.addEventListener('connect', (msg) => {
+          console.log(socket.id)
+      });
+      
+      socket.addEventListener('message', (msg) => {
+          addMessage(msg);
+      });
+
+      socket.addEventListener('addUser', (params) => {
+          setUsers(params.quantity);
+          setUsersList(params.name);
+      });
+
+      socket.addEventListener('disconnectUser', (name) => {
+          deleteFromUsersList(name);
+      });
+
+      socket.addEventListener( 'error', (e) => {
+          throw new Error('Connection is interrupted or is not avalible');
+      });
+
+      const addMessage = (info) => {
+          const msgItem = document.createElement('li');
+          msgItem.className = 'msg-item';
+
+          const msgPhoto = document.createElement('div');
+          msgPhoto.className = 'author-photo author-photo--small empty';
+
+          const msgPhotoImg = document.createElement('img');
+
+          const msgInfo = document.createElement('div');
+          msgInfo.className = 'author-info';
+
+          msgItem.appendChild(msgPhoto);
+          msgItem.appendChild(msgInfo);
+          msgPhoto.appendChild(msgPhotoImg);
+
+          const msgName = document.createElement('div');
+          msgName.className = 'author-name author-name--small';
+          msgName.textContent = info.name;   
+          
+          const msgDate = document.createElement('div');
+          msgDate.className = 'author-date';
+          msgDate.textContent = info.date; 
+
+          const msg = document.createElement('div');
+          msg.className = 'author-msg';
+          msg.textContent = info.msg;
+
+          msgInfo.appendChild(msgName);
+          msgInfo.appendChild(msgDate);
+          msgInfo.appendChild(msg);
+
+          msgContainer.appendChild(msgItem);
+          msgContainer.scrollTop = msgContainer.scrollHeight;
+      }  
+
+      const sendMessage = () => {
+          socket.emit('message', { msg: msgInput.value, name: msgInput.dataset.name, date: new Date() });
+          msgInput.value = '';
+      }
+
+      const setUsers = (quantity) => {
+          usersHeader.textContent.includes('(') 
+            ? usersHeader.textContent = usersHeader.textContent.replace( /([0-9]+)/, quantity)
+            : usersHeader.textContent += ` (${quantity})`
+      }
+
+      const setUsersList = (name) => {
+        const userActiveList = !localStorage.activeList || localStorage.activeList === '' ? [] : JSON.parse(localStorage.activeList);
+      
+        if (!userActiveList.includes(name)) userActiveList.push(name);
+        localStorage.activeList = JSON.stringify(userActiveList);
+        createUserItem(name, usersList);
+      }
+
+      const deleteFromUsersList = (name) => {
+        //const userActiveList = !localStorage.activeList || localStorage.activeList === '' ? [] : JSON.parse(localStorage.activeList);
+        //userActiveList.push(name);
+        //[...usersList.children].filter(elem => elem.dataset.name === name).forEach(elem => elem.classList.add('tot'));
+        //localStorage.activeList = JSON.stringify(userActiveList);
+      }
+
+      const createUserItem = (name, list) => {
+        const user = document.createElement('li');
+          
+        user.setAttribute('data-name', name);
+        user.textContent = name;
+        list.appendChild(user);  
+      }
+
+      button.addEventListener('click', sendMessage);
+      msgInput.addEventListener('keyup', (e) => {
+        if (e.keyCode === 13) {
+          sendMessage();
+        }
+      });
+
+    </script>
+    <script>
+      const popup = document.querySelector('#popup-autorize');
+      const formAuthor = document.querySelector('#form-autorize');
+      const authorName = document.querySelector('#author-name');
+
+      const showActiveUsers = (list) => {
+          const fr = document.createDocumentFragment();
+
+          list.forEach(user => {
+            createUserItem(user, fr);
+          });
+
+          usersList.appendChild(fr);
+      }
+
+      formAuthor.addEventListener('submit', (e) => {
+        e.preventDefault();
+        e.target.find = [].find;
+        
+        const name = e.target.find(elem => elem.id === 'name').value;
+        window.name = name;
+
+        authorName.textContent = name;
+        localStorage.active = localStorage.active ? Number(localStorage.active) + 1 : 1;
+
+        const activeList = !localStorage.activeList || localStorage.activeList === '' ? [] : JSON.parse(localStorage.activeList);
+
+        showActiveUsers(activeList);
+        msgInput.setAttribute('data-name', name)
+
+
+        socket.emit('addUser', { quantity: localStorage.active, name });
+
+        socket.addEventListener('disconnect', () => {
+          localStorage.active = localStorage.active ? Number(localStorage.active) - 1 : 0; 
+          setUsers(localStorage.active);
+
+          socket.emit('disconnectUser', name);
+        });
+
+        popup.classList.add('hidden');
+      });
+
+    </script>
+  </body>
+</html>
